@@ -86,6 +86,14 @@ const GetByteLengthFromString = (str) => {
     })(str));
 };
 
+// FUNC. 기간 timestamp 구하기
+const IntervalTimestamp = (day) => {
+    let nowDate = Number(moment().format('X'));
+    let endDate = Number(moment(nowDate * 1000).add(day, 'days').format('X'));
+
+    return endDate - nowDate;
+};
+
 module.exports = {
     CheckNum,
     CheckSpc,
@@ -99,5 +107,6 @@ module.exports = {
     XSSFilter,
     SaveLog,
     RandomString,
-    GetByteLengthFromString
+    GetByteLengthFromString,
+    IntervalTimestamp
 };

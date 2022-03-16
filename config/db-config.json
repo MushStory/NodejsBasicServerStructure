@@ -1,7 +1,7 @@
 {
   "host": "localhost",
-  "user": "mush",
-  "password": "mushstory",
-  "database": "mushstory",
+  "user": "user",
+  "password": "mashiro@12",
+  "database": "message",
   "port": "3306"
 }

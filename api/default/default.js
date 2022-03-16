@@ -1,29 +1,43 @@
-// IMPORT
-// const db = require('../../util/mysql');
-const util = require('../../util/util');
+module.exports = (params) => {
+    // IMPORT
+    let { router } = params;
+    const db = require('../../util/mysql');
+    const util = require('../../util/util');
 
-// FUNC. default api
-const logic = async (req, res) => {
-    try {
-        // PARAM
-        let id = String(req.body.id);
+    // FUNC. default api
+    router.post('/', async (req, res) => {
+        try {
+            // PARAM
+            const test = String(req.body.test);
 
-        // PROCESS
-        // let value = await db.exec(`
-        //     SELECT * FROM test WHERE id=${db.escape(id)}
-        // `);
-        // if(value.length < 1) throw 'non id';
+            // PROCESS
+            // select
+            await db.exec(`SELECT * FROM test WHERE test=${db.escape(test)}`);
 
-        // RETURN
-        res.status(200).send({
-            id: id
-        });
-    } catch (e) {
-        console.log(e);
-        util.SaveLog('/default/default', JSON.stringify(e), req);
-        res.status(500).send(e.toString());
-    }
+            // insert
+            await db.exec(`
+                INSERT INTO test(
+                    test) VALUES(
+                    ${db.escape(test)}
+                );
+            `);
+
+            // update
+            await db.exec(`UPDATE test SET test=${db.escape(test)}`);
+
+            // delete
+            await db.exec(`DELETE FROM test WHERE test=${db.escape(test)}`);
+
+            // RETURN
+            res.status(200).send({
+                test: test
+            });
+        } catch (e) {
+            console.log(e);
+            util.SaveLog('/default/default', JSON.stringify(e), req);
+            res.status(500).send(e.toString());
+        }
+    });
+
+    return router;
 };
-
-// EXPORT
-module.exports = { protocol: 'get', logic: logic };

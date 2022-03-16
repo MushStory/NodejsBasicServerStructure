@@ -28,20 +28,12 @@ const InitRouter = () => {
         files.forEach((path) => {
             // get api
             const apiPath = path.split('api')[1].replace('.js','');
-            const api = require('./' + path);
-            let { protocol, logic } = api;
-
-            // check api logic
-            if(logic === undefined) return;
-
-            // check api protocol
-            protocol = protocol.toLowerCase();
-            if(protocol !== 'get' && protocol !== 'post') return;
+            const router = require('./' + path)({
+                router: express.Router()
+            });
 
             // init router
-            let _router = express.Router();
-            eval(`_router.${protocol}('/', ${logic});`);
-            app.use(apiPath, _router);
+            app.use(apiPath, router);
         });
     });
 };

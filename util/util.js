@@ -73,9 +73,14 @@ const SaveLog = (title, data, req) => {
     fs.appendFile(`log/${fileName}`, fileData, (e) => {});
 };
 
-// FUNC. 랜덤값 생성
+// FUNC. 숫자로된 랜덤 문자열 생성
 const RandomString = () => {
     return String(Math.floor(Math.random() * 100000)) + String(moment().format('X'));
+};
+
+// FUNC. 지정된 범위에서 랜덤 숫자 생성
+const RandomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 // FUNC. 문자열->바이트 변환
@@ -87,11 +92,17 @@ const GetByteLengthFromString = (str) => {
 };
 
 // FUNC. 기간 timestamp 구하기
-const IntervalTimestamp = (day) => {
-    let nowDate = Number(moment().format('X'));
-    let endDate = Number(moment(nowDate * 1000).add(day, 'days').format('X'));
+const IntervalTimestamp = (addTime, unit = 'days') => {
+    // unit: seconds, minutes, hour, days
+    let nowTimestamp = Number(moment().format('X'));
+    let endTimestamp = Number(moment(nowTimestamp * 1000).add(addTime, unit).format('X'));
+    return endTimestamp - nowTimestamp;
+};
 
-    return endDate - nowDate;
+// FUNC. ~후 timestamp 구하기
+const AfterTimestamp = (nowTimestamp, unit = 'days') => {
+    // unit: seconds, minutes, hour, days
+    return Number(moment().add(nowTimestamp, unit).format('X'));
 };
 
 module.exports = {
@@ -107,6 +118,8 @@ module.exports = {
     XSSFilter,
     SaveLog,
     RandomString,
+    RandomNumber,
     GetByteLengthFromString,
-    IntervalTimestamp
+    IntervalTimestamp,
+    AfterTimestamp
 };
